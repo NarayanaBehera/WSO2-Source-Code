@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/systemval" name="systemprop" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET">
+        <inSequence>
+            <log>
+                <property expression="synapse:get-property('system','Name')" name="nameVal"/>
+            </log>
+            <property expression="synapse:get-property('system','Name')" name="nameVal" scope="default" type="STRING"/>
+            <payloadFactory media-type="json">
+                <format>
+					{"Name":$1}
+				</format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('nameVal')"/>
+                </args>
+            </payloadFactory>
+            <log level="full"/>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

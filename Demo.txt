@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/fetch" name="get_post" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/{firstname}">
+        <inSequence>
+            <payloadFactory media-type="json">
+                <format>{"FullName":"$1 Behera"}</format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('uri.var.firstname')"/>
+                </args>
+            </payloadFactory>
+            <log level="full"/>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="POST" uri-template="/{post}">
+        <inSequence>
+            <property expression="json-eval($.Ditrict)" name="District" scope="default" type="STRING"/>
+            <payloadFactory media-type="json">
+                <format>{"Post":"$1","District":"$2"}</format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('uri.var.post')"/>
+                    <arg evaluator="xml" expression="get-property('District')"/>
+                </args>
+            </payloadFactory>
+            <log level="full"/>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

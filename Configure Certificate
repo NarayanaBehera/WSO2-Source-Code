@@ -1,0 +1,10 @@
+openssl genrsa -out ca.key 4096
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt
+openssl req -new -config wso2.cnf -out wso2_server.csr -keyout wso2_server.key
+
+openssl x509 -req -in wso2_server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out wso2_server.cer -days 825 -sha256
+
+openssl pkcs12 -export -in wso2_server.cer -inkey wso2_server.key -name "wso2" -out wso2.pfx
+keytool -importkeystore -srckeystore wso2.pfx -srcstoretype pkcs12 -destkeystore wso2.jks -deststoretype JKS
+
+keytool -import -alias wso2 -file wso2_server.cer -keystore client-truststore.jks

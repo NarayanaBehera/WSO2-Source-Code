@@ -8,3 +8,5 @@ openssl pkcs12 -export -in wso2_server.cer -inkey wso2_server.key -name "wso2" -
 keytool -importkeystore -srckeystore wso2.pfx -srcstoretype pkcs12 -destkeystore wso2.jks -deststoretype JKS
 
 keytool -import -alias wso2 -file wso2_server.cer -keystore client-truststore.jks
+
+keytool -delete -alias wso2 -keystore client-truststore.jks 
